@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>title</title>
+</head>
+<style>/* Hotels Showcase Section Styles */
+    .hotels-showcase {
+      padding: 80px 0;
+      background-color: #f8f9fa;
+    }
+    
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+      color: #333;
+      font-size: 36px;
+      font-weight: 600;
+    }
+    
+    .hotels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    /* Hotel Card Styles */
+    .hotel-card {
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+    
+    .hotel-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .hotel-thumbnail {
+      height: 200px;
+      overflow: hidden;
+    }
+    
+    .hotel-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .hotel-card:hover .hotel-thumbnail img {
+      transform: scale(1.05);
+    }
+    
+    .hotel-info {
+      padding: 20px;
+    }
+    
+    .hotel-info h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      color: #333;
+    }
+    
+    .hotel-details {
+      margin-bottom: 15px;
+    }
+    
+    .hotel-location, .hotel-price {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .hotel-rating {
+      color: #ff9800;
+      margin: 8px 0;
+    }
+    
+    /* Expanded View Styles */
+    .hotel-expanded {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity all 1s ease-in-out;
+    }
+    
+    .hotel-expanded.active {
+      display: flex;
+      opacity: 1;
+    }
+    
+    .expanded-content {
+      width: 80%;
+      max-width: 1000px;
+      height: 80%;
+      max-height: 600px;
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      position: relative;
+      transition: all 0.3s ease-out;
+
+    }
+    
+    .expanded-gallery {
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      transition: all 0.3s ease-out;
+
+    }
+    
+    .expanded-gallery img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: all 0.3s ease-out;
+
+    }
+    
+    .expanded-details {
+      width: 50%;
+      height: 100%;
+      padding: 30px;
+      overflow-y: auto;
+      transition: all 0.3s ease-out;
+
+    }
+    
+    .expanded-details h3 {
+      margin: 0 0 15px;
+      font-size: 24px;
+      color: #333;
+      transition: all 0.3s ease-out;
+
+    }
+    
+    .description {
+      margin-bottom: 20px;
+      line-height: 1.6;
+      transition: all 0.3s ease-out;
+
+      color: #555;
+    }
+    
+    .amenities {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    
+    .amenities li {
+      display: flex;
+      align-items: center;
+      color: #666;
+    }
+    
+    .amenities li i {
+      margin-right: 8px;
+      color: #4caf50;
+    }
+    
+    .hotel-map {
+      width: 100%;
+      height: 200px;
+      background-color: #f1f1f1;
+      margin-bottom: 20px;
+      border-radius: 4px;
+    }
+    
+    .close-expanded {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: #333;
+      font-size: 20px;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+    
+    /* Responsive styles */
+    @media (max-width: 992px) {
+      .expanded-content {
+        flex-direction: column;
+        height: 90%;
+        max-height: 90vh;
+      }
+      
+      .expanded-gallery, .expanded-details {
+        width: 100%;
+        height: auto;
+      }
+      
+      .expanded-gallery {
+        height: 300px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .hotels-grid {
+        grid-template-columns: 1fr;
+        padding: 0 20px;
+      }
+      
+      .section-title {
+        font-size: 28px;
+        margin-bottom: 30px;
+      }
+    }</style>
+<body>
+    <!-- Hotels Showcase Section -->
+<section class="hotels-showcase">
+    <div class="container">
+      <h2 class="section-title">Explore Our Featured Hotels</h2>
+      <div class="hotels-grid">
+        <!-- Hotel Card 1 -->
+        <div class="hotel-card">
+          <div class="hotel-thumbnail">
+            <img src="images/hotel1.jpg" alt="Luxury Beach Resort">
+          </div>
+          <div class="hotel-info">
+            <h3>Luxury Beach Resort</h3>
+            <div class="hotel-details">
+              <p class="hotel-location"><i class="fas fa-map-marker-alt"></i> Mombasa, Kenya</p>
+              <p class="hotel-price">From $180/night</p>
+              <div class="hotel-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+            </div>
+            <a href="#" class="btn btn-outline">View Details</a>
+          </div>
+          <!-- Expanded View (Hidden by default) -->
+          <div class="hotel-expanded">
+            <div class="expanded-content">
+              <div class="expanded-gallery">
+                <img src="images/hotel1-large.jpg" alt="Luxury Beach Resort">
+              </div>
+              <div class="expanded-details">
+                <h3>Luxury Beach Resort</h3>
+                <p class="description">Experience unparalleled luxury at our beachfront resort with stunning ocean views, private beach access, and world-class amenities.</p>
+                <ul class="amenities">
+                  <li><i class="fas fa-wifi"></i> Free WiFi</li>
+                  <li><i class="fas fa-swimming-pool"></i> Pool</li>
+                  <li><i class="fas fa-utensils"></i> Restaurant</li>
+                  <li><i class="fas fa-spa"></i> Spa</li>
+                </ul>
+                <div class="hotel-map" id="map-hotel1">
+                  <!-- Map will be loaded here via JavaScript -->
+                </div>
+                <a href="#" class="btn btn-primary">Book Now</a>
+              </div>
+              <button class="close-expanded"><i class="fas fa-times"></i></button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Hotel Card 2 -->
+        <div class="hotel-card">
+          <div class="hotel-thumbnail">
+            <img src="images/hotel2.jpg" alt="Safari Lodge">
+          </div>
+          <div class="hotel-info">
+            <h3>Safari Lodge</h3>
+            <div class="hotel-details">
+              <p class="hotel-location"><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+              <p class="hotel-price">From $220/night</p>
+              <div class="hotel-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+            <a href="#" class="btn btn-outline">View Details</a>
+          </div>
+          <!-- Expanded View (Hidden by default) -->
+          <div class="hotel-expanded">
+            <div class="expanded-content">
+              <div class="expanded-gallery">
+                <img src="images/hotel2-large.jpg" alt="Safari Lodge">
+              </div>
+              <div class="expanded-details">
+                <h3>Safari Lodge</h3>
+                <p class="description">Immerse yourself in the heart of the wilderness with our luxury safari lodge offering guided tours, authentic cuisine, and unforgettable wildlife experiences.</p>
+                <ul class="amenities">
+                  <li><i class="fas fa-wifi"></i> Free WiFi</li>
+                  <li><i class="fas fa-compass"></i> Safari Tours</li>
+                  <li><i class="fas fa-utensils"></i> Restaurant</li>
+                  <li><i class="fas fa-campground"></i> Outdoor Activities</li>
+                </ul>
+                <div class="hotel-map" id="map-hotel2">
+                  <!-- Map will be loaded here via JavaScript -->
+                </div>
+                <a href="#" class="btn btn-primary">Book Now</a>
+              </div>
+              <button class="close-expanded"><i class="fas fa-times"></i></button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Hotel Card 3 -->
+        <div class="hotel-card">
+          <div class="hotel-thumbnail">
+            <img src="images/hotel3.jpg" alt="City Boutique Hotel">
+          </div>
+          <div class="hotel-info">
+            <h3>City Boutique Hotel</h3>
+            <div class="hotel-details">
+              <p class="hotel-location"><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+              <p class="hotel-price">From $150/night</p>
+              <div class="hotel-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+            </div>
+            <a href="#" class="btn btn-outline">View Details</a>
+          </div>
+          <!-- Expanded View (Hidden by default) -->
+          <div class="hotel-expanded">
+            <div class="expanded-content">
+              <div class="expanded-gallery">
+                <img src="images/hotel3-large.jpg" alt="City Boutique Hotel">
+              </div>
+              <div class="expanded-details">
+                <h3>City Boutique Hotel</h3>
+                <p class="description">Located in the heart of Nairobi, our boutique hotel combines modern design with authentic Kenyan hospitality, perfect for business and leisure travelers alike.</p>
+                <ul class="amenities">
+                  <li><i class="fas fa-wifi"></i> Free WiFi</li>
+                  <li><i class="fas fa-coffee"></i> Café</li>
+                  <li><i class="fas fa-concierge-bell"></i> Concierge</li>
+                  <li><i class="fas fa-business-time"></i> Business Center</li>
+                </ul>
+                <div class="hotel-map" id="map-hotel3">
+                  <!-- Map will be loaded here via JavaScript -->
+                </div>
+                <a href="#" class="btn btn-primary">Book Now</a>
+              </div>
+              <button class="close-expanded"><i class="fas fa-times"></i></button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Add more hotel cards as needed -->
+      </div>
+    </div>
+  </section>
+</body>
+<script>
+    // Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Get all hotel cards
+  const hotelCards = document.querySelectorAll('.hotel-card');
+  
+  // Add event listeners to each hotel card
+  hotelCards.forEach(card => {
+    // View details button click handler
+    const viewDetailsBtn = card.querySelector('.btn-outline');
+    const expandedView = card.querySelector('.hotel-expanded');
+    const closeBtn = card.querySelector('.close-expanded');
+    
+    // Show expanded view on button click
+    viewDetailsBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      expandedView.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevent scrolling
+      
+      // Initialize map
+      const mapContainer = expandedView.querySelector('.hotel-map');
+      initMap(mapContainer.id);
+    });
+    
+    // Close expanded view
+    closeBtn.addEventListener('click', function() {
+      expandedView.classList.remove('active');
+      document.body.style.overflow = ''; // Re-enable scrolling
+    });
+    
+    // Close on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && expandedView.classList.contains('active')) {
+        expandedView.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+    
+    // Close when clicking outside the content
+    expandedView.addEventListener('click', function(e) {
+      if (e.target === expandedView) {
+        expandedView.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+});
+
+// Map initialization function
+function initMap(mapId) {
+  // Check if Google Maps API is loaded
+  if (typeof google === 'undefined') {
+    loadGoogleMapsAPI().then(() => {
+      createMap(mapId);
+    });
+  } else {
+    createMap(mapId);
+  }
+}
+
+// Load Google Maps API dynamically
+function loadGoogleMapsAPI() {
+  return new Promise((resolve, reject) => {
+    // Replace YOUR_API_KEY with your actual Google Maps API key
+    const apiKey = 'YOUR_API_KEY';
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=googleMapsLoaded`;
+    script.async = true;
+    script.defer = true;
+    
+    // Define callback function in global scope
+    window.googleMapsLoaded = function() {
+      resolve();
+    };
+    
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
+
+// Create map in the specified container
+function createMap(mapId) {
+  // Get hotel location based on map ID
+  const locations = {
+    'map-hotel1': { lat: -4.0435, lng: 39.6682 }, // Mombasa coordinates
+    'map-hotel2': { lat: -1.2921, lng: 36.8219 }, // Nairobi coordinates
+    'map-hotel3': { lat: -1.2921, lng: 36.8219 }  // Nairobi coordinates
+  };
+  
+  const location = locations[mapId] || { lat: -1.2921, lng: 36.8219 }; // Default to Nairobi
+  
+  const map = new google.maps.Map(document.getElementById(mapId), {
+    center: location,
+    zoom: 14,
+    styles: [
+      {
+        featureType: 'poi',
+        elementType: 'labels',
+        stylers: [{ visibility: 'off' }]
+      }
+    ]
+  });
+  
+  // Add marker for hotel location
+  new google.maps.Marker({
+    position: location,
+    map: map,
+    title: 'Hotel Location',
+    animation: google.maps.Animation.DROP
+  });
+}
+</script>
+</html>

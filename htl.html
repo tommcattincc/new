@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Display App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    .hotel-list, .add-hotel {
+      margin-bottom: 40px;
+    }
+    .hotel-card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .hotel-gallery {
+      display: flex;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .hotel-gallery img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .hotel-info h2 {
+      margin: 0;
+      font-size: 20px;
+      color: #333;
+    }
+    .hotel-info p {
+      margin: 4px 0;
+      color: #666;
+    }
+    .book-button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: #0071c2;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .book-button:hover {
+      background-color: #005a9c;
+    }
+    input {
+      padding: 10px;
+      margin: 6px;
+      width: 220px;
+    }
+    textarea {
+      width: 460px;
+      height: 60px;
+      padding: 10px;
+      margin: 6px;
+      resize: vertical;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hotel List</h1>
+  <div class="hotel-list" id="hotelList"></div>
+
+  <div class="add-hotel">
+    <h2>Add a New Hotel</h2>
+    <input type="text" id="hotelName" placeholder="Hotel Name">
+    <input type="text" id="hotelLocation" placeholder="Location">
+    <input type="text" id="hotelImage" placeholder="Main Image URL">
+    <input type="text" id="hotelGallery" placeholder="Gallery Images (comma-separated URLs)">
+    <br>
+    <textarea id="hotelDescription" placeholder="Hotel Description"></textarea>
+    <br>
+    <button onclick="addHotel()">Add Hotel</button>
+  </div>
+
+  <script>
+    const hotelListEl = document.getElementById('hotelList');
+
+    let hotels = [
+      {
+        name: "Hotel Paradise",
+        location: "Malibu",
+        image: "https://via.placeholder.com/100",
+        gallery: [
+          "https://via.placeholder.com/80",
+          "https://via.placeholder.com/80",
+          "https://via.placeholder.com/80"
+        ],
+        description: "A tropical escape with beach views and luxury service."
+      },
+      {
+        name: "Mountain Retreat",
+        location: "Aspen",
+        image: "https://via.placeholder.com/100",
+        gallery: [
+          "https://via.placeholder.com/80",
+          "https://via.placeholder.com/80",
+          "https://via.placeholder.com/80"
+        ],
+        description: "Cozy lodge surrounded by breathtaking mountain scenery."
+      },
+    ];
+
+    function displayHotels() {
+      hotelListEl.innerHTML = '';
+      hotels.forEach((hotel) => {
+        const card = document.createElement('div');
+        card.className = 'hotel-card';
+
+        const galleryHTML = hotel.gallery.map(img => `<img src="${img}" alt="Gallery Image">`).join('');
+
+        card.innerHTML = `
+          <div class="hotel-info">
+            <h2>${hotel.name}</h2>
+            <p><strong>Location:</strong> ${hotel.location}</p>
+            <p>${hotel.description}</p>
+            <div class="hotel-gallery">${galleryHTML}</div>
+            <button class="book-button" onclick="alert('Booking page coming soon!')">Book Now</button>
+          </div>
+        `;
+        hotelListEl.appendChild(card);
+      });
+    }
+
+    function addHotel() {
+      const name = document.getElementById('hotelName').value;
+      const location = document.getElementById('hotelLocation').value;
+      const image = document.getElementById('hotelImage').value || 'https://via.placeholder.com/100';
+      const galleryInput = document.getElementById('hotelGallery').value;
+      const description = document.getElementById('hotelDescription').value || 'No description provided.';
+      const gallery = galleryInput.split(',').map(url => url.trim()).filter(Boolean);
+
+      if (name && location) {
+        hotels.push({ name, location, image, gallery, description });
+        displayHotels();
+
+        document.getElementById('hotelName').value = '';
+        document.getElementById('hotelLocation').value = '';
+        document.getElementById('hotelImage').value = '';
+        document.getElementById('hotelGallery').value = '';
+        document.getElementById('hotelDescription').value = '';
+      }
+    }
+
+    displayHotels();
+  </script>
+</body>
+</html>

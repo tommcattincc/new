@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    min 
+}
+
+.section {
+    text-align: center;
+    font-size: 3em;
+    color: white;
+}
+
+.section:nth-child(1) {
+    background-color: #ff5733; /* Red */
+}
+
+.section:nth-child(2) {
+    background-color: #33c1ff; /* Blue */
+}
+
+.section:nth-child(3) {
+    background-color: #75ff33; /* Green */
+}
+
+.section:nth-child(4) {
+    background-color: #ff33a1; /* Pink */
+}

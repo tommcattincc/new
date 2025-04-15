@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Villa Ameera Malindi - Luxury Beach Villa</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    
+    body {
+      background-image: url('44.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #2a4858;
+      height: 230vh;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      max-width: 100%;
+     
+      
+    }
+    
+    .header {
+      background: transparent;
+      color: white;
+      
+     
+      text-align: center;
+      opacity: 0; /* Start invisible */
+      min-height: 5vh;
+      border-radius: 10px;
+      max-width: 100vw;
+      justify-self: center;     
+      min-width: 100%;
+    transition: opacity 2s ease-in-out; /* Transition effect */
+}
+    
+    
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .header ul {
+        text-decoration: none;
+        display: flex;
+        flex-direction: row;
+        padding-left: 10vw
+    }
+    .header ul li {
+        list-style-type: none;
+        padding-left: 7vw;
+        margin-top: 2vh;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .main {
+      min-width: 90vw;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      flex: 1;
+      overflow-y: auto;
+      border-radius: 25px;
+      opacity: 0; /* Start invisible */
+    transition: opacity 2s ease-in-out; /* Transition effect */
+}
+body.loaded .main {
+    opacity: 1; /* End fully visible */
+}
+body.loaded .header {
+    opacity: 1; /* End fully visible */
+}
+    
+    .hotel-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .hotel-title h1 {
+      font-size: 3.5rem;
+      color: #4ab7bd;
+      margin-bottom: 5px;
+    }
+    
+    .hotel-title .location {
+      color: #666;
+      margin-bottom: 20px;
+    }
+    
+    .main-image {
+      width: 100%;
+      height: 300px;
+      overflow: hidden;
+      margin-bottom: 15px;
+      border-radius: 25px;
+      min-height: 50vh;
+    }
+    
+    .main-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .gallery img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+    
+    .description {
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    
+    .description h2 {
+      color: #4ab7bd;
+      margin-bottom: 10px;
+    }
+    
+    .description p {
+      font-size: 0.95em;
+    }
+    
+    .amenities {
+      margin-bottom: 20px;
+    }
+    
+    .amenities h2 {
+      color: #4ab7bd;
+      margin-bottom: 10px;
+    }
+    
+    .amenities-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    
+    .amenity-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9em;
+    }
+    
+    .amenity-icon {
+      min-width: 16px;
+      height: 16px;
+      background-color: #4ab7bd;
+      border-radius: 50%;
+    }
+    
+    .booking-form {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 15px;
+      border-radius: 5px;
+      border: 1px solid #4ab7bd;
+      margin-bottom: 15px;
+    }
+    
+    .booking-form h2 {
+      color: #4ab7bd;
+      margin-bottom: 10px;
+      font-size: 18px;
+      text-align: center;
+    }
+    
+    .form-group {
+      margin-bottom: 12px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      font-size: 0.9em;
+    }
+    
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    
+    .form-row {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .form-row .form-group {
+      flex: 1;
+    }
+    
+    .book-now {
+      background-color: #4ab7bd;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      display: block;
+      margin: 15px auto;
+      text-align: center;
+      text-decoration: none;
+      width: 200px;
+    }
+    
+    .book-now:hover {
+      background-color: #3a9599;
+    }
+    
+    .footer {
+      background-color: rgba(74, 183, 189, 0.9);
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 0.9em;
+    }
+    
+    @media (max-width: 768px) {
+      .gallery {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .amenities-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .form-row {
+        flex-direction: column;
+        gap: 5px;
+      }
+    }
+    .maps {
+        min-width: 90vw;
+        min-height: 45vh;
+        border-radius: 25px;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="header">
+    <nav>
+        <ul>
+           
+            <li>Home</li>
+            <li>Contact Us</li>
+            
+            
+        </ul>
+    </nav>
+  </div>
+  
+  <div class="main">
+    <div class="hotel-header">
+      <div class="hotel-title">
+        <h1>TurtleBay Resort</h1>
+        <div class="location">Malindi Beach Road, 80200 Malindi, Kenya</div>
+      </div>
+    </div>
+    
+    <div class="main-image">
+      <img src="77.jpg" alt="Villa Ameera Main View" />
+    </div>
+    
+    <div class="gallery">
+      <img src="villamerapool.jpg" alt="Villa Ameera Pool" />
+      <img src="villamerabedroom.jpg" alt="Villa Ameera Bedroom" />
+      <img src="beach1.jpg" alt="Villa Ameera Beach" />
+      <img src="beach2.jpg" alt="Villa Ameera Garden" />
+    </div>
+    
+    <div class="description">
+      <h2>Experience Paradise at Villa Ameera</h2>
+      <p>Located on Malindi's pristine coastline, Villa Ameera offers an exclusive retreat with direct beach access and panoramic ocean views. This luxury villa features spacious living areas, a private infinity pool, and lush tropical gardens.</p>
+    </div>
+    
+    <div class="amenities">
+      <h2>Villa Highlights</h2>
+      <div class="amenities-list">
+        <div class="amenity-item">
+          <div class="amenity-icon"></div>
+          <span>Private Beach Access</span>
+        </div>
+        <div class="amenity-item">
+          <div class="amenity-icon"></div>
+          <span>Infinity Pool</span>
+        </div>
+        <div class="amenity-item">
+          <div class="amenity-icon"></div>
+          <span>Free WiFi</span>
+        </div>
+        <div class="amenity-item">
+          <div class="amenity-icon"></div>
+          <span>Air Conditioning</span>
+        </div>
+        <div class="amenity-item">
+          <div class="amenity-icon"></div>
+          <span>Private Chef</span>
+        </div>
+        <div class="amenity-item">
+          <div class="amenity-icon"></div>
+          <span>Daily Housekeeping</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="booking-form">
+      <h2>Book Your Stay</h2>
+      <form id="bookingForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="checkIn">Check-in Date</label>
+            <input type="date" id="checkIn" name="checkIn" required>
+          </div>
+          <div class="form-group">
+            <label for="checkOut">Check-out Date</label>
+            <input type="date" id="checkOut" name="checkOut" required>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="adults">Adults</label>
+            <select id="adults" name="adults" required>
+              <option value="1">1</option>
+              <option value="2" selected>2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="children">Children</label>
+            <select id="children" name="children">
+              <option value="0" selected>0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="e.g. +1234567890" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+        </div>
+      </form>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1408.184389724146!2d40.00413183378655!3d-3.3631474014600142!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x181581c9baf81a97%3A0x98abf1e0a596fdd3!2sTurtle%20Bay%20Beach%20Resort%20Watamu!5e0!3m2!1sen!2ske!4v1743592437857!5m2!1sen!2ske" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="maps"></iframe>
+
+    </div>
+    
+    <button id="bookNowBtn" class="book-now">Book Now via WhatsApp</button>
+  </div>
+  
+  <div class="footer">
+    <p>Villa Ameera Malindi | Contact: +254 743 066 873</p>
+  </div>
+
+  <script>
+    // script.js
+document.addEventListener("DOMContentLoaded", function() {
+    // Wait for the window to load completely
+    window.onload = function() {
+        // Add the 'loaded' class to the body
+        document.body.classList.add('loaded');
+    };
+});
+    document.getElementById('bookNowBtn').addEventListener('click', function() {
+      // Get form values
+      const form = document.getElementById('bookingForm');
+      const checkIn = document.getElementById('checkIn').value;
+      const checkOut = document.getElementById('checkOut').value;
+      const adults = document.getElementById('adults').value;
+      const children = document.getElementById('children').value;
+      const phone = document.getElementById('phone').value;
+      const name = document.getElementById('name').value;
+      
+      // Validate form
+      if (!checkIn || !checkOut || !adults || !phone || !name) {
+        alert('Please fill in all required fields');
+        return;
+      }
+      
+      // Calculate number of nights
+      const startDate = new Date(checkIn);
+      const endDate = new Date(checkOut);
+      const nights = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
+      
+      if (nights <= 0) {
+        alert('Check-out date must be after check-in date');
+        return;
+      }
+      
+      // Create WhatsApp message
+      const message = `Hello, I would like to book a stay at Villa Ameera Malindi.
+      
+Name: ${name}
+Phone: ${phone}
+Check-in: ${checkIn}
+Check-out: ${checkOut}
+Number of nights: ${nights}
+Number of people: ${adults} adults, ${children} children
+      
+I look forward to your response. Thank you!`;
+      
+      // Encode message for URL
+      const encodedMessage = encodeURIComponent(message);
+      
+      // Open WhatsApp with pre-filled message
+      window.open(`https://wa.me/254743066873?text=${encodedMessage}`, '_blank');
+    });
+    
+    // Set minimum date for check-in and check-out to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('checkIn').setAttribute('min', today);
+    document.getElementById('checkOut').setAttribute('min', today);
+    
+    // Update check-out min date when check-in changes
+    document.getElementById('checkIn').addEventListener('change', function() {
+      const checkInDate = this.value;
+      document.getElementById('checkOut').setAttribute('min', checkInDate);
+      
+      // If check-out is before new check-in, update it
+      if (document.getElementById('checkOut').value < checkInDate) {
+        document.getElementById('checkOut').value = checkInDate;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luxury Hotel Collection</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    
+    .container {
+      width: 90%;
+      margin: 0 auto;
+      padding: 2rem 0;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #2c3e50;
+    }
+    
+    .section-subtitle {
+      font-size: 1.2rem;
+      color: #7f8c8d;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    /* Hotel grid */
+    .hotel-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+    
+    .hotel-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .hotel-card.expanded {
+      transform: scale(1.05);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      z-index: 2;
+    }
+    
+    .hotel-image {
+      height: 220px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .hotel-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    
+    .hotel-card.expanded .hotel-image img {
+      transform: scale(1.1);
+    }
+    
+    .hotel-details {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    
+    .hotel-name {
+      font-size: 1.5rem;
+      margin-bottom: 0.7rem;
+      color: #2c3e50;
+    }
+    
+    .hotel-location {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      color: #7f8c8d;
+    }
+    
+    .hotel-location svg {
+      margin-right: 0.5rem;
+      fill: #7f8c8d;
+    }
+    
+    .hotel-description {
+      margin-bottom: 1.5rem;
+      color: #555;
+      line-height: 1.6;
+    }
+    
+    .hotel-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.8rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    
+    .stat-value {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    
+    .stat-label {
+      font-size: 0.85rem;
+      color: #7f8c8d;
+    }
+    
+    .hotel-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .feature {
+      background: #ecf0f1;
+      color: #2c3e50;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+    
+    .hotel-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+    }
+    
+    .hotel-price {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #27ae60;
+    }
+    
+    .price-note {
+      font-size: 0.85rem;
+      font-weight: normal;
+      color: #7f8c8d;
+    }
+    
+    .book-now {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    .book-now:hover {
+      background: #2980b9;
+    }
+    
+    .hotel-rating {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .stars {
+      display: flex;
+      margin-right: 0.5rem;
+    }
+    
+    .star {
+      color: #f1c40f;
+      margin-right: 2px;
+      font-size: 1.2rem;
+    }
+    
+    .reviews {
+      color: #7f8c8d;
+      font-size: 0.9rem;
+    }
+    
+    /* Map section */
+    .map-container {
+      height: 250px;
+      margin-top: 1rem;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    /* Filter and search controls */
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .search-container {
+      position: relative;
+      flex: 1;
+      max-width: 400px;
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #7f8c8d;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 0.8rem 1rem 0.8rem 2.5rem;
+      border: 1px solid #ddd;
+      border-radius: 30px;
+      font-size: 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+    
+    .filter-sort {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    select {
+      padding: 0.8rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 30px;
+      background: white;
+      min-width: 150px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+    
+    select:focus {
+      outline: none;
+      border-color: #3498db;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .hotel-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .search-container {
+        max-width: none;
+      }
+    }
+
+    /* Expanded view for the map */
+    .expanded-view .map-container {
+      height: 350px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="section-title">Luxury Hotel Collection</h1>
+      <p class="section-subtitle">Discover handpicked premium accommodations for an unforgettable stay experience.</p>
+    </header>
+    
+    <div class="controls">
+      <div class="search-container">
+        <div class="search-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </div>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search hotels by name or location...">
+      </div>
+      <div class="filter-sort">
+        <select id="sortSelect">
+          <option value="recommended">Recommended</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="rating">Highest Rating</option>
+        </select>
+        <select id="filterSelect">
+          <option value="all">All Properties</option>
+          <option value="5star">5 Star Only</option>
+          <option value="under300">Under $300</option>
+          <option value="luxury">Luxury Collection</option>
+        </select>
+      </div>
+    </div>
+    
+    <div id="hotelGrid" class="hotel-grid">
+      <!-- Hotel cards will be dynamically generated here -->
+    </div>
+  </div>
+
+  <script>
+    // Sample hotel data - would normally come from a database
+    const hotels = [
+      {
+        id: 1,
+        name: "Grand Palace Hotel & Spa",
+        location: "Downtown, New York City",
+        description: "Experience unmatched luxury in the heart of Manhattan. This iconic hotel features stunning city views, world-class dining, and an award-winning spa.",
+        rating: 5,
+        reviews: 487,
+        price: 599,
+        image: "/api/placeholder/800/500",
+        features: ["Rooftop Pool", "5-Star Restaurant", "Luxury Spa", "City Views", "Executive Lounge"],
+        mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d96743.53388693355!2d-74.02175407373053!3d40.74245576695543!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1712592214619!5m2!1sen!2sus"
+      },
+      {
+        id: 2,
+        name: "Oceanfront Paradise Resort",
+        location: "Malibu, California",
+        description: "Escape to this beachfront haven where luxury meets natural beauty. Fall asleep to the sound of waves and wake up to breathtaking ocean panoramas.",
+        rating: 4.5,
+        reviews: 312,
+        price: 429,
+        image: "/api/placeholder/800/500",
+        features: ["Private Beach", "Infinity Pool", "Ocean View", "Beachside Dining", "Water Sports"],
+        mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52871.03354383065!2d-118.84172082089837!3d34.03116756783163!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80e81da3a6501a73%3A0x12fd6b28bf639baf!2sMalibu%2C%20CA!5e0!3m2!1sen!2sus!4v1712592261351!5m2!1sen!2sus"
+      },
+      {
+        id: 3,
+        name: "Mountain View Alpine Lodge",
+        location: "Aspen, Colorado",
+        description: "Nestled among majestic peaks, this luxurious mountain retreat offers the perfect blend of rustic charm and modern amenities for an unforgettable alpine getaway.",
+        rating: 4.8,
+        reviews: 256,
+        price: 349,
+        image: "/api/placeholder/800/500",
+        features: ["Ski-in/Ski-out", "Fireplace", "Mountain Views", "Hot Tub", "Hiking Trails"],
+        mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d49076.43704862055!2d-106.86741204555376!3d39.19353590678183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8741a26991cfb085%3A0xee3c6cea5fd4e1b9!2sAspen%2C%20CO%2081611!5e0!3m2!1sen!2sus!4v1712592309051!5m2!1sen!2sus"
+      }
+    ];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Render all hotels
+      renderHotels(hotels);
+      
+      // Setup search and filter functionality
+      const searchInput = document.getElementById('searchInput');
+      const sortSelect = document.getElementById('sortSelect');
+      const filterSelect = document.getElementById('filterSelect');
+      
+      searchInput.addEventListener('input', filterAndSortHotels);
+      sortSelect.addEventListener('change', filterAndSortHotels);
+      filterSelect.addEventListener('change', filterAndSortHotels);
+    });
+    
+    function renderHotels(hotelsToRender) {
+      const hotelGrid = document.getElementById('hotelGrid');
+      hotelGrid.innerHTML = '';
+      
+      hotelsToRender.forEach(hotel => {
+        const hotelCard = document.createElement('div');
+        hotelCard.className = 'hotel-card';
+        hotelCard.setAttribute('data-id', hotel.id);
+        
+        // Generate stars based on rating
+        let starsHTML = '';
+        const fullStars = Math.floor(hotel.rating);
+        const hasHalfStar = hotel.rating % 1 !== 0;
+        
+        for (let i = 0; i < 5; i++) {
+          if (i < fullStars) {
+            starsHTML += '<span class="star">★</span>';
+          } else if (i === fullStars && hasHalfStar) {
+            starsHTML += '<span class="star">★</span>';
+          } else {
+            starsHTML += '<span class="star">☆</span>';
+          }
+        }
+        
+        // Generate features HTML
+        let featuresHTML = '';
+        hotel.features.forEach(feature => {
+          featuresHTML += `<span class="feature">${feature}</span>`;
+        });
+        
+        hotelCard.innerHTML = `
+          <div class="hotel-image">
+            <img src="${hotel.image}" alt="${hotel.name}">
+          </div>
+          <div class="hotel-details">
+            <h3 class="hotel-name">${hotel.name}</h3>
+            <div class="hotel-location">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              ${hotel.location}
+            </div>
+            <div class="hotel-rating">
+              <div class="stars">${starsHTML}</div>
+              <span class="reviews">${hotel.reviews} reviews</span>
+            </div>
+            <p class="hotel-description">${hotel.description}</p>
+            <div class="hotel-stats">
+              <div class="stat">
+                <span class="stat-value">${hotel.rating}</span>
+                <span class="stat-label">Rating</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">${hotel.reviews}</span>
+                <span class="stat-label">Reviews</span>
+              </div>
+            </div>
+            <div class="hotel-features">
+              ${featuresHTML}
+            </div>
+            <div class="map-container">
+              <iframe src="${hotel.mapEmbed}" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <div class="hotel-footer">
+              <div class="hotel-price">
+                $${hotel.price}<span class="price-note">/night</span>
+              </div>
+              <button class="book-now">Book Now</button>
+            </div>
+          </div>
+        `;
+        
+        hotelGrid.appendChild(hotelCard);
+      });
+      
+      // Add hover effect
+      setupHoverEffects();
+    }
+    
+    function setupHoverEffects() {
+      const hotelCards = document.querySelectorAll('.hotel-card');
+      
+      hotelCards.forEach(card => {
+        let hoverTimer;
+        
+        card.addEventListener('mouseenter', function() {
+          // Start a timer when hovering begins
+          hoverTimer = setTimeout(() => {
+            card.classList.add('expanded');
+            card.classList.add('expanded-view');
+          }, 3000); // 3 seconds delay
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          // Clear the timer and remove expanded class when mouse leaves
+          clearTimeout(hoverTimer);
+          card.classList.remove('expanded');
+          card.classList.remove('expanded-view');
+        });
+      });
+    }
+    
+    function filterAndSortHotels() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const sortValue = document.getElementById('sortSelect').value;
+      const filterValue = document.getElementById('filterSelect').value;
+      
+      // Filter hotels
+      let filteredHotels = hotels.filter(hotel => {
+        const matchesSearch = hotel.name.toLowerCase().includes(searchTerm) || 
+                              hotel.location.toLowerCase().includes(searchTerm);
+        
+        let matchesFilter = true;
+        if (filterValue === '5star') {
+          matchesFilter = hotel.rating >= 5;
+        } else if (filterValue === 'under300') {
+          matchesFilter = hotel.price < 300;
+        } else if (filterValue === 'luxury') {
+          matchesFilter = hotel.price > 400;
+        }
+        
+        return matchesSearch && matchesFilter;
+      });
+      
+      // Sort hotels
+      if (sortValue === 'price-low') {
+        filteredHotels.sort((a, b) => a.price - b.price);
+      } else if (sortValue === 'price-high') {
+        filteredHotels.sort((a, b) => b.price - a.price);
+      } else if (sortValue === 'rating') {
+        filteredHotels.sort((a, b) => b.rating - a.rating);
+      }
+      
+      renderHotels(filteredHotels);
+    }
+  </script>
+</body>
+</html>
